@@ -27,20 +27,25 @@ body {
   position: fixed;
   inset: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100svh; /* stabilize on mobile toolbars */
   z-index: 0;
+  pointer-events: none; /* don't intercept touches */
 }
 
 .container {
   position: relative;
   z-index: 1;
+  /* viewport height fallbacks */
+  min-height: 100vh;
   min-height: 100dvh;
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 16px;
   padding: 24px 20px 80px; /* extra bottom padding so absolute footer doesn't overlap */
+  padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
 }
 
 header { text-align: center; }
@@ -165,4 +170,8 @@ footer {
 @media (max-width: 480px) {
   .glow-btn { width: 100%; justify-content: center; }
   .tag { font-size: 0.95rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neon { animation: none; }
 }
